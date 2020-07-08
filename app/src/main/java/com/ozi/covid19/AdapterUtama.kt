@@ -4,40 +4,44 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ozi.covid19.prov.Attributes
+import com.ozi.covid19.Model.ResponseKaltim
+import kotlinx.android.synthetic.main.adapterr.view.*
 
-class AdapterUtama (private val model: MutableList<Attributes>,private var context: Context) :
-RecyclerView.Adapter<AdapterUtama.ViewHolder>() {
-//    private var ct: Context? = null
-    override fun onBindViewHolder(holder: AdapterUtama.ViewHolder, position: Int) {
-        val attributes = model[position]
-        holder.p.text = attributes.provinsi
-//        holder.tv_sembuh.text= att.kasusSemb.toString()// nampilk
-        //menampilkan gambar
+class AdapterUtama(val data: List<ResponseKaltim>?) :
+    RecyclerView.Adapter<AdapterUtama.MyHolder>() {
+    private var ct: Context? = null
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        holder.bind(data?.get(position))
+    }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        val L = LayoutInflater.from(parent.context)
+        val V = L.inflate(R.layout.adapterr, parent, false)
+        return MyHolder(V)
 
     }
 
-
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val view = LayoutInflater.from(context)
-        val l = view.inflate(R.layout.adapterr, null)
-        return ViewHolder(l)
-    }
-
-    override fun getItemCount(): Int {
-        return model.size
-
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var p: TextView = itemView.findViewById(R.id.namaprov)
-//        internal var tv_sembuh: TextView = itemView.findViewById(R.id.sembuh)
+    override fun getItemCount(): Int =
+        data?.size ?: 0
 
 
+    class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        fun bind(get: ResponseKaltim?) {
+            itemView.tv2.text = get?.kabKota
+            itemView.positif.text = get?.confirmed
+            itemView.sembuh.text = get?.sembuh
+            itemView.meninggal.text = get?.meninggal
+
+//        internal var tv_judul: TextView = itemView.findViewById(R.id.tv2)
+//        internal var positif1: TextView = itemView.findViewById(R.id.positif)
+//        internal var tv_isi: TextView = itemView.findViewById(R.id.sembuh)
+//        internal var tv3: TextView = itemView.findViewById(R.id.meninggal)
+            //  internal var tv_view:TextView=itemView.findViewById(R.id.tv_viewer)
+
+
+        }
     }
 
 

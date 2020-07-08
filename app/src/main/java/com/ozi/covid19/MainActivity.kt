@@ -1,17 +1,13 @@
 package com.ozi.covid19
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ozi.covid19.Model.ResponseData
-import com.ozi.covid19.prov.Attributes
-import com.ozi.covid19.prov.ResponseProvinsi
+import com.ozi.covid19.Model.ResponseKaltim
 import kotlinx.android.synthetic.main.activty1.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +24,6 @@ class MainActivity : AppCompatActivity(){
 //            }
 //    }
 
-    private var data: List<Attributes> = ArrayList()
     private var adapter: AdapterUtama? = null
     lateinit var a: TextView
     lateinit var but: Button
@@ -36,61 +31,49 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activty1)
-
-        dataa()
+        dataaa()
         datatgl()
 
+    }
+    private fun dataaa(){
 
+ApiService.getService()?.getData()
+   ?.enqueue(object : Callback<List<ResponseKaltim>> {
+        override fun onFailure(call: Call<List<ResponseKaltim>>, t: Throwable) {
+        }
 
+        override fun onResponse(
+            call: Call<List<ResponseKaltim>>,
+            response: Response<List<ResponseKaltim>>
+        ) {
+            rcutamaa.adapter = AdapterUtama(response.body())
+        }
 
-
-        a = findViewById(R.id.sembuh)
+    })
     }
 
-    private fun setdata(responn: List<ResponseData>) {
-
-        val respone = responn[0]
-        sembuh.setText("${respone.sembuh}")
-        positif.setText("${respone.positif}")
-        meninggal.setText(("${respone.meninggal}"))
-
-    }
-
-    private fun dataa() {
-
-        ApiService.getService()?.getData()
-            ?.enqueue(object : Callback<List<ResponseData>> {
-                override fun onFailure(call: Call<List<ResponseData>>?, t: Throwable?) {
-                    Toast.makeText(this@MainActivity, "ERROR HOST ", Toast.LENGTH_LONG).show()
-
-                }
-
-                override fun onResponse(
-                    call: Call<List<ResponseData>>,
-                    response: Response<List<ResponseData>>
-                ) {
-                    if (response?.isSuccessful!!) {
-
-                        val main: List<ResponseData> = response.body()!!
-                        setdata(main)
 
 
-                    } else {
-                        Toast.makeText(this@MainActivity, "Hasil data", Toast.LENGTH_LONG).show()
+//    private fun setdata(responn: List<ResponseData>) {
+//
+//        val respone = responn[0]
+//        sembuh.setText("${respone.sembuh}")
+//        positif.setText("${respone.positif}")
+//        meninggal.setText(("${respone.meninggal}"))
+//
+//    }
 
-                    }
-                }
 
-            })
-    }
+
+
 
     private fun datatgl() {
         val sdf = SimpleDateFormat("dd MMM yyyy ", Locale.getDefault())
         val currentDateandTime = sdf.format(Date())
         tv_datee?.text = currentDateandTime
     }
-
-
-
 }
+
+
+
 

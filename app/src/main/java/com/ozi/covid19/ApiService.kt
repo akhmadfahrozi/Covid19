@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 object ApiService{
 
-        val BASE_URL = "https://api.kawalcorona.com/"
+        val BASE_URL = "https://covid19.kaltimprov.go.id/api/"
         private var retrofit: Retrofit? = null
         fun getRetrofitClient(): Retrofit? {
             if (retrofit == null)
