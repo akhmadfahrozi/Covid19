@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class ResponseKaltim(
-
+//int ganti string
 	@field:SerializedName("Meninggal")
 	val meninggal: String? = null,
 

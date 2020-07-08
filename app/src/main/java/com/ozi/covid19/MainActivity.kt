@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity(){
     lateinit var a: TextView
     lateinit var but: Button
 
+    //bentuk list
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activty1)
